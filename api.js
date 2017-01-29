@@ -5,10 +5,11 @@ const server = new Hapi.Server();
 var Sonos = require('sonos')
 var queue = require('./helpers/queue')
 var search = Sonos.search()
+var Config = require('./config')
 
 var sonos = {};
 
-server.connection({ port: 3000, host: 'localhost' });
+server.connection(Config.hapi);
 
 server.route({
     method: 'POST',
