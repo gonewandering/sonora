@@ -4,7 +4,7 @@ module.exports = {
     port: 6379,
     ns: 'rsmq'
   },
-  {
+  hapi: {
     port: 8002,
     host: '0.0.0.0'
   }
