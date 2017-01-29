@@ -6,6 +6,10 @@ module.exports = {
   },
   hapi: {
     port: 8002,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    cors: true,
+    routes: {
+        cors: true
+    }
   }
 }
