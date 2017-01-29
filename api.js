@@ -2,12 +2,16 @@
 
 const Hapi = require('hapi');
 const server = new Hapi.Server();
-var queue = require('./helpers/queue');
+var Sonos = require('sonos')
+var queue = require('./helpers/queue')
+var search = Sonos.search()
+
+var sonos = {};
 
 server.connection({ port: 3000, host: 'localhost' });
 
 server.route({
-    method: 'GET',
+    method: 'POST',
     path: '/{command}',
     handler: function (request, reply) {
       var options = request.query || {};
@@ -19,9 +23,28 @@ server.route({
     }
 });
 
-server.start((err) => {
+server.route({
+    method: 'GET',
+    path: '/{command}',
+    handler: function (request, reply) {
+      var command = request.params.command;
+      var route = 'get' + command.charAt(0).toUpperCase() + command.slice(1);
 
-    if (err) { throw err; }
+      if (command == 'currentTrack') { route = command; }
 
-    console.log(`Server running at: ${server.info.uri}`);
+      if (!sonos[route]) { reply('No Command'); }
+      sonos[route](function (err, res) {
+        reply({ command: route, response: res});
+      });
+    }
+});
+
+search.on('DeviceAvailable', function (device, model) {
+  sonos = new Sonos.Sonos(device.host, device.port);
+
+  server.start((err) => {
+      if (err) { throw err; }
+
+      console.log(`Server running at: ${server.info.uri}`);
+  });
 });
