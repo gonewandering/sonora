@@ -21,7 +21,7 @@ class AppComponent extends React.Component {
     });
 
     q.then(function (data) {
-      console.log(data);
+      if (this.state.data == data) { return; }
 
       this.setState({
         data: data
@@ -30,20 +30,26 @@ class AppComponent extends React.Component {
   }
 
   componentDidMount() {
-    console.log('this far');
     this.getCurrent.bind(this)();
+
+    window.setInterval(this.getCurrent.bind(this), 3000);
   }
 
   render() {
-    if (!this.state.data) {
+    var current = this.state.data.response || {};
+
+    if (!current.title) {
       return (
         <h3>Loading Current...</h3>
       )
     }
 
     return (
-      <div className="index">
-
+      <div className="Current">
+        <img className="album-cover" src={ current.albumArtURL } />
+        <small>{ current.album }</small>
+        <h2>{ current.title }</h2>
+        <h4>{ current.artist }</h4>
       </div>
     );
   }

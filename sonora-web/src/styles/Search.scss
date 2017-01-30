@@ -1,0 +1,21 @@
+.Search {
+  background: #333;
+  margin-bottom: 4px;
+  .value {
+    width: 70%;
+    height: 30px;
+    border: none;
+    border-radius: 0;
+  }
+
+  button {
+    border: none;
+    border-radius: none;
+    padding: 0px 8px;
+    margin: 0;
+    background: transparent;
+    color: white;
+    font-size: 10px;
+    font-weight: 300;
+  }
+}

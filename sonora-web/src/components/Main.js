@@ -7,13 +7,17 @@ import Current from './Current'
 import Volume from './Volume'
 import Presets from './Presets'
 import Search from './Search'
+import Controls from './Controls'
 
 class AppComponent extends React.Component {
   render() {
     return (
-      <div className="index">
-        <h1>Sonora</h1>
+      <div className="Index">
+        <Search></Search>
+        <Controls></Controls>
+        <Volume></Volume>
         <Current></Current>
+        <Presets></Presets>
       </div>
     );
   }

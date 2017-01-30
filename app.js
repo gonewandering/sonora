@@ -30,10 +30,21 @@ var services = {
 
 var commands = {
   play: function (message) {
+    if (!message.service) {
+      sonos.play(function () { })
+      return;
+    }
+
     services[message.service](message);
+  },
+  pause: function (message) {
+    sonos.pause(function () { })
   },
   next: function (message) {
     sonos.next(function () { })
+  },
+  previous: function (message) {
+    sonos.previous(function () { })
   },
   volume: function (message) {
     sonos.setVolume(message.volume, function () { });
