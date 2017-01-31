@@ -1,5 +1,5 @@
 require('normalize.css/normalize.css');
-require('styles/App.css');
+require('styles/App.scss');
 
 import React from 'react';
 
@@ -13,10 +13,13 @@ class AppComponent extends React.Component {
   render() {
     return (
       <div className="Index">
-        <Search></Search>
-        <Controls></Controls>
+        <div className="Title">
+          <h3>SONORA</h3>
+        </div>
         <Volume></Volume>
         <Current></Current>
+        <Search></Search>
+        <Controls></Controls>
         <Presets></Presets>
       </div>
     );

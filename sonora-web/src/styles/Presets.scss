@@ -1,13 +1,16 @@
 .Presets {
   .preset {
     display: block;
-    padding: 10px 20px;
-    background: #666;
-    color: white;
-    margin-bottom: 1px;
+    padding: 20px 20px;
+    background: lighten(#021740, 0);
+    color: lighten(#021740, 40);
     text-align: center;
-    font-size: 12px;
+    font-size: 20px;
     font-weight: 300;
     text-decoration: none;
+
+    &:nth-child(odd) {
+    background: darken(#021740, 5);
+    }
   }
 }

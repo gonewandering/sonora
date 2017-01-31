@@ -27,11 +27,13 @@ class AppComponent extends React.Component {
   render() {
     return (
       <div className="Search">
-        <form>
+        <div className="search-input">
           <input className="value" type="text" name="search" placeholder="Search" />
+        </div>
+        <div className="search-service">
           <button type="submit" name="service" value="Spotify" onClick={ this.searchSonos.bind(this, 'spotify') }>Spotify</button>
           <button type="submit" name="service" value="Tunein" onClick={ this.searchSonos.bind(this, 'tunein') }>Tunein</button>
-        </form>
+        </div>
       </div>
     );
   }

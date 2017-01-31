@@ -46,8 +46,6 @@ class AppComponent extends React.Component {
 
     return (
       <div className="Current">
-        <img className="album-cover" src={ current.albumArtURL } />
-        <small>{ current.album }</small>
         <h2>{ current.title }</h2>
         <h4>{ current.artist }</h4>
       </div>

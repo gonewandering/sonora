@@ -1,0 +1,21 @@
+/* Base Application Styles */
+body {
+  color: #fff;
+  background: #00010D;
+  font-family: 'ABeeZee', sans-serif;
+}
+
+.Title {
+  text-align: center;
+  background: #00010D;
+  padding: 10px 0;
+
+  h3 {
+    font-weight: 300;
+    color: lighten(#021740, 20);
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    text-shadow: 0 1px rgba(black, .3);
+  }
+}

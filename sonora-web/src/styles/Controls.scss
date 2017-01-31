@@ -1,12 +1,13 @@
 .Controls {
   text-align: center;
-  background: #666;
+  background: #00010D;
+  padding: 30px 0;
+
   .control {
     display: inline-block;
-    padding: 10px;
-    margin: 4px;
     background: transparent;
-    color: white;
-    font-size: 36px;
+    color: lighten(#021740, 0);
+    padding: 0 20px;
+    font-size: 50px;
   }
 }
