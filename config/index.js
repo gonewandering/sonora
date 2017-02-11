@@ -10,5 +10,8 @@ module.exports = {
     routes: {
         cors: true
     }
+  },
+  api: {
+    url: 'http://0.0.0.0:8002/api'
   }
 }
