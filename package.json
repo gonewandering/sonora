@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app | node api | node listener",
+    "start": "node node-sonos-http-api/server.js | node listener.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

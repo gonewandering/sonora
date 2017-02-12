@@ -1,52 +1,63 @@
 var request = require('request-promise');
-var queue = require('./helpers/queue');
 var config = require('./config');
-var currentMessage = {};
+var Sonos = require('./helpers/Sonos');
+var sonos = new Sonos();
+
+var ts = {};
 var n = 0;
+var group = null;
 
-function checkS3() {
-  request.get('https://s3.amazonaws.com/sonos-communicator/actions').then(function (d) {
-    var message = JSON.parse(d);
 
-    if (currentMessage != d && n > 0) {
-      getGroup(message).then(runQuery);
-    }
-
-    n++;
-    currentMessage = d;
-  });
-}
-
+/**
+ * [getGroup description]
+ * Check to see if messages sepcifies a group of speakers and group accordingly.
+ * Right now only functionality is "all"
+ *
+ * @param  {[type]} message [description]
+ * @return {[type]}         [description]
+ */
 function getGroup(message) {
-  let allZones = [
-    'all',
-    'kitchen and living room',
-    'living room and kitchen'
-  ];
+  let configAll = config.api.url + 'preset/all'
+  let allZones = config.zoneAliases.all
 
-  if (allZones.indexOf(message.zones) > -1) {
-    if (message.command == 'volume') {
-      message.command = 'groupVolume';
-    }
-
-    message.zones = 'kitchen'
-
-    return request.get(config.api.url + 'preset/all').then(function (d) {
-      return message;
-    }).catch(function (e) {
-      throw e;
-    });
+  let notCoupled = (resolve, reject) => {
+    return resolve(message)
+    return reject(message)
   }
 
-  return new Promise(function (resolve, reject) {
-    if (1 == 2) { reject() }
-    resolve(message)
+  group = message.zones || group
+  message.zones = message.zones || group || 'kitchen'
+
+  if (allZones.indexOf(message.zones) == -1) {
+    return new Promise(notCoupled)
+  }
+
+  if (message.command == 'volume') {
+    message.command = 'groupVolume'
+  }
+
+  return request.get(configAll).then(function (d) {
+    message.zones = 'kitchen'
+    return message
+  }).catch(function (e) {
+    throw e
   })
 }
 
+
+/**
+ * [assembleQuery description]
+ * Assemble URL query based on message contents
+ * @param  {[type]} message [description]
+ * @return {[type]}         [description]
+ */
 function assembleQuery(message) {
   let actions = {
-    play: function (message) {
+    play: message => {
+      if (config.stations.indexOf(message.search.toLowerCase()) > -1) {
+        return sonos.tunein(message)
+      }
+
       return [
         message.zones,
         'musicsearch',
@@ -55,21 +66,21 @@ function assembleQuery(message) {
         message.search
       ]
     },
-    volume: function (message) {
+    volume: message => {
       return [
         message.zones,
         'volume',
         message.search
       ]
     },
-    groupVolume: function (message) {
+    groupVolume: message => {
       return [
         message.zones,
         'volume',
         message.search
       ]
     },
-    general: function (message) {
+    general: message => {
       return [
         message.zones,
         message.command
@@ -77,22 +88,56 @@ function assembleQuery(message) {
     }
   };
 
-  return actions[message.command] ? actions[message.command](message) : actions.general(message)
+  if (actions[message.command]) {
+    return actions[message.command](message)
+  }
+
+  return actions.general(message)
 }
 
+
+
+/**
+ * [runQuery description]
+ * Run Query against API to initiatie change.
+ * @param  {[type]} message [description]
+ * @return {[type]}         [description]
+ */
 function runQuery(message) {
   let query = assembleQuery(message) || [];
-
-  console.log(query);
+  if (!query[0]) { return; }
 
   return request.get({
     url: config.api.url + query.join('/')
-  }).then(function (d) { console.log(d); })
-  .catch(function (err) {console.log(err); });
+  }).then(d => { console.log(d); })
+  .catch(err => { console.log(err); });
 }
 
+
+
+/**
+ * Look for changes in queue file
+ * @return {[type]} [description]
+ */
+function checkQueue() {
+  let checked = (d) => {
+    var message = JSON.parse(d);
+
+    ts != message.ts && n > 0 && getGroup(message).then(runQuery);
+    n++; ts = message.ts;
+  }
+
+  request.get(config.queueFile).then(checked);
+}
+
+
+
+/**
+ * Initialize the whole thing...
+ * @return {[type]} [description]
+ */
 function init() {
-  var app = setInterval(checkS3, 2000);
+  var app = setInterval(checkQueue, 2000);
 }
 
 init();
