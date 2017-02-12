@@ -12,6 +12,6 @@ module.exports = {
     }
   },
   api: {
-    url: 'http://0.0.0.0:8002/api'
+    url: 'http://0.0.0.0:5005/'
   }
 }

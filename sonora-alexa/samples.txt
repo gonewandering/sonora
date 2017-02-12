@@ -1,0 +1,9 @@
+PlayMusic play {search} in {zones}
+PlayMusic play {search} with {type} in {zones}
+PlayMusic play {search}
+ChangeVolume turn volume to {volume}
+ChangeVolume turn volume to {volume}
+ChangeVolume turn volume to {volume} in the {zones}
+ChangeVolume turn volume to {volume} in the {zones}
+GeneralCommand {comamnd} with {zones}
+GeneralCommand {comamnd} using {zones}

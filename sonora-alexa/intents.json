@@ -1,0 +1,47 @@
+{
+  "intents": [
+    {
+      "intent": "PlayMusic",
+      "slots": [
+        {
+          "name": "search",
+          "type": "LIST_OF_ARTISTS"
+        },
+        {
+          "name": "zones",
+          "type": "LIST_OF_SPEAKERS"
+        },
+        {
+          "name": "type",
+          "type": "LIST_OF_SOURCES"
+        }
+      ]
+    },
+    {
+      "intent": "ChangeVolume",
+      "slots": [
+        {
+          "name": "volume",
+          "type": "VOLUME"
+        },
+        {
+          "name": "zones",
+          "type": "LIST_OF_SPEAKERS"
+        }
+      ]
+    },
+    {
+      "intent": "GeneralCommand",
+      "slots": [
+        {
+          "name": "zones",
+          "type": "LIST_OF_SPEAKERS"
+        },
+        {
+          "name": "command",
+          "type": "LIST_OF_COMMANDS"
+        }
+      ]
+    }
+  ]
+}

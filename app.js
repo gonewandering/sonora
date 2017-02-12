@@ -66,7 +66,10 @@ var getMessage = function (message) {
 
 search.on('DeviceAvailable', function (device, model) {
   var sonosDevice = new Sonos.Sonos(device.host, device.port);
-
+  sonosDevice.getTopology(function (err, data) {
+    console.log(data);
+  });
+  
   sonosDevice.getZoneAttrs(function (err, data) {
     sonosDevice.name = data.CurrentZoneName.toLowerCase();
     sonos[sonosDevice.name] = sonosDevice;
