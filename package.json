@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node node-sonos-http-api/server.js | node listener.js",
+    "forever": "forever node-sonos-http-api/server.js && forever listener.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
